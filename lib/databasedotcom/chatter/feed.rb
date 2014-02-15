@@ -19,8 +19,8 @@ module Databasedotcom
         path_components << feed_type
         path_components << id unless feed_type == "company"
         path_components << id_prefix
-        path_components << "feed-items" unless page
-        path_components << "feed-items?page=#{page}" if page
+        path_components << "feed-items" if page.nil?
+        path_components << "feed-items?page=#{page}" unless page.nil?
         path = "/" + path_components.compact.join('/')
         puts path
         result = client.http_get(path)
