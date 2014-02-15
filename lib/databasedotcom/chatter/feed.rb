@@ -22,6 +22,7 @@ module Databasedotcom
         path_components << "feed-items" unless page
         path_components << "feed-items?page=#{page}" if page
         path = "/" + path_components.compact.join('/')
+        puts path
         result = client.http_get(path)
         response = JSON.parse(result.body)
         collection = self.new(client, nil, response["nextPageUrl"], response["previousPageUrl"], response["currentPageUrl"])
