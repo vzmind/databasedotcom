@@ -12,7 +12,7 @@ module Databasedotcom
       #    FilterFeed.find(@client, "me", "000")    #=>   [#<FeedItem ...>, #<FeedItem ...>, ...]
       #
       # _id_prefix_ is only applicable for FilterFeed.
-      def self.find(client, id="me", id_prefix=nil)
+      def self.find(client, id="me", id_prefix=nil, page = nil)
         path_components = %w(services data)
         path_components << "v#{client.version}"
         path_components.concat(%w(chatter feeds))
@@ -20,6 +20,7 @@ module Databasedotcom
         path_components << id unless feed_type == "company"
         path_components << id_prefix
         path_components << "feed-items"
+        path_components << "?page=#{page}" if page
         path = "/" + path_components.compact.join('/')
         result = client.http_get(path)
         response = JSON.parse(result.body)
